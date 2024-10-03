@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Profili</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/background.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #FF6F61;
+        }
+
+        a {
+            color: #1DB954;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #recommendations {
+            margin-top: 20px;
+        }
+
+        div.track {
+            background-color: rgba(44, 44, 44, 0.8);
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        #genre-form {
+            margin-bottom: 20px;
+        }
+
+        select, button {
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #FF6F61;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e65c50;
+        }
+
+        /* Logo stili */
+        .spotify-logo {
+            height: 30px; /* Küçük logo yüksekliği */
+            vertical-align: middle; /* Dikey hizalama */
+            margin-left: 10px; /* Soldan boşluk */
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        Spotify Müzik Öneri Sistemine Hoş Geldiniz,
+        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo" class="spotify-logo">
+        {{ user['display_name'] }}
+    </h1>
+    
+
+    <h2>Hangi tarzda müzik dinlersiniz?</h2>
+    <form id="genre-form">
+        <select id="genre" name="genre">
+            <option value="">Seçiniz</option>
+            <option value="rock">Rock</option>
+            <option value="pop">Pop</option>
+            <option value="hip-hop">Hip Hop</option>
+            <option value="jazz">Jazz</option>
+            <option value="classical">Klasik</option>
+            <option value="electronic">Elektronik</option>
+            <option value="reggae">Reggae</option>
+            <option value="blues">Blues</option>
+            <option value="country">Country</option>
+            <option value="rnb">R&B (Rhythm and Blues)</option>
+        </select>
+        <button type="submit">Önerileri Göster</button>
+    </form>
+
+    <h2>Önerilen Şarkılar</h2>
+    <div id="recommendations"></div>
+
+    <script>
+        document.getElementById('genre-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const genre = document.getElementById('genre').value;
+
+            fetch(`/recommendations?genre=${genre}`)
+                .then(response => response.json())
+                .then(data => {
+                    const recommendationsDiv = document.getElementById('recommendations');
+                    recommendationsDiv.innerHTML = '';
+                    data.forEach(track => {
+                        const trackElement = document.createElement('div');
+                        trackElement.classList.add('track');
+                        trackElement.innerHTML = `<strong>${track.name}</strong> by ${track.artist} (from album: ${track.album}) <a href="${track.url}" target="_blank">Dinle</a>`;
+                        recommendationsDiv.appendChild(trackElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching recommendations:', error));
+        });
+    </script>
+</body>
+</html>

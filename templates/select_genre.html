@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Müzik Türü Seç</title>
+</head>
+<body>
+    <h1>Hoş Geldiniz, İlhanozturk</h1>
+    <p>Email: ilhanztrkk@gmail.com</p>
+    <h2>Hangi tarzda müzik dinlersiniz?</h2>
+    
+    <form method="POST" action="/recommendations">
+        <select name="genre" id="genre">
+            <option value="">Seçiniz</option>
+            <option value="rock">Rock</option>
+            <option value="pop">Pop</option>
+            <option value="hip-hop">Hip Hop</option>
+            <option value="jazz">Jazz</option>
+            <option value="classical">Klasik</option>
+            <option value="electronic">Elektronik</option>
+            <option value="reggae">Reggae</option>
+            <option value="blues">Blues</option>
+            <option value="country">Country</option>
+            <option value="rnb">R&B (Rhythm and Blues)</option>
+        </select>
+        <button type="submit">Önerileri Göster</button>
+    </form>
+    
+</body>
+</html>
